@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>soal-1</title>
+</head>
+<body>
+  <h1>MASUKAN KATA:</h1>
+  <input type="text" id="input" placeholder="kata"><br><br>
+  <button onclick="onHitungVokal()">
+    HITUNG VOKAL
+  </button>
+  <button onclick="onHurufVokal()">
+    HURUF VOKAL
+  </button>
+  <button onclick="onTanpaVokal()">
+    TANPA VOKAL
+  </button>
+
+  <tbody>    
+    <h2 id="hasil">
+  
+    </h2>
+  </tbody>
+
+  <script>
+
+    function onHitungVokal (){
+      let inputKata = document.getElementById('input').value
+      let a, i, u, e, o;
+      let hasil = 0
+      inputKata = inputKata.toLowerCase().toString().split('')
+      if(inputKata.includes('a')){
+        a = 1
+      } else {
+        a = 0
+      }
+      if(inputKata.includes('i')){
+        i = 1
+      } else {
+        i = 0
+      }
+      if(inputKata.includes('u')){
+        u = 1
+      } else {
+        u = 0
+      }
+      if(inputKata.includes('e')){
+        e = 1
+      } else {
+        e = 0
+      }
+      if(inputKata.includes('o')){
+        o = 1
+      } else {
+        o = 0
+      }
+      let hitung = a+i+u+e+o
+      hasil =  `Hasil: ada ${hitung} huruf vokal berdampingan`
+      document.getElementById('hasil').innerHTML = hasil
+    }
+
+    function onHurufVokal (){
+      let inputKata = document.getElementById('input').value
+
+      let j = inputKata.toLowerCase().toString().split('') 
+      let a = `${j.includes('a') ? j.filter(val => val == 'a')[0] : ''}` 
+      let i = `${j.includes('i') ? j.filter(val => val == 'i')[0] : ''}`
+      let u = `${j.includes('u') ? j.filter(val => val == 'u')[0] : ''}`
+      let e = `${j.includes('e') ? j.filter(val => val == 'e')[0] : ''}`
+      let o = `${j.includes('o') ? j.filter(val => val == 'o')[0] : ''}`
+      
+      let hasil = `Huruf vokal: ${a}${i}${u}${e}${o}`
+      console.log(hasil)
+      document.getElementById('hasil').innerHTML = hasil
+    }
+
+    function onTanpaVokal (){
+      let inputKata = document.getElementById('input').value 
+      let hasil = `Tanpa vokal: ${inputKata.replace(/[aiueo]/ig, (m, i) => i = '' )} `
+      document.getElementById('hasil').innerHTML = hasil
+
+    }
+
+  </script>
+</body>
+</html>

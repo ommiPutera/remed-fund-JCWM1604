@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>soal-2</title>
+  <style>
+    table, tr, td, th{
+      padding: 5px;
+      border-collapse: collapse;
+      border: 1px solid black
+    }
+    form {
+      width: 60%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  
+
+  <center>
+    <h1>Form Product</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id='renderData'>
+
+      </tbody>
+      <tbody>
+        <tr>
+          <td>#</td>
+          <td><input type="text" placeholder="Product name" id="inputName"></td>
+          <td><input type="number" placeholder="Price" id="inputPrice"></td>
+          <td>
+            <input type="radio" id="radioButton" value="drink"> drink
+            <input type="radio" id="radioButton" value="food"> food
+            <input type="radio" id="radioButton" value="others"> others
+          </td>
+          <td>
+            <button onclick="onAddClick()">
+              ADD
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
+
+
+
+  <script>
+    
+    class Form {
+      constructor(_name, _price, _category){
+        this.name = _name
+        this.price = _price
+        this.category = _category
+      }
+    }
+    let form = [
+      new Form('Coca cola', '5000', 'drink'),
+      new Form('Beng beng', '4500', 'food'),
+      new Form('Fanta', '3500', 'drink'),
+    ]
+
+    let indexEdit = -1
+    let indexDelete = -1
+    const printForm = () => {
+      let hasil = form.map((val, index) => {
+        if(indexEdit === index){
+          return `<tr>
+              <td>${index+1}</td>
+              <td><input type="text" value="${val.name}" id="editname"></td>
+              <td><input type="number" value="${val.price}" id="editprice"></td>
+              <td>
+                <input type="radio" name="radioButton" value=0> drink
+                <input type="radio" name="radioButton" value=1> food
+                <input type="radio" name="radioButton" value=2> others
+              </td>
+              <td>
+                <input type="button" value="SAVE" onclick="onSaveClick(${index})">  
+                <input type="button" value="CANCEL" onclick="onCancelClick(${index})">
+              </td>
+            </tr>`
+        }
+        return `<tr>
+              <td>${index+1}</td>
+              <td>${val.name}</td>
+              <td>${val.price}</td>
+              <td>${val.category}</td>
+              <td>
+                <input type="button" value="EDIT" onclick="onEditClick(${index})">  
+                <input type="button" value="DELETE" onclick="onDeleteClick(${index})">
+              </td>
+            </tr>`
+      })
+      document.getElementById('renderData').innerHTML = hasil.join('')
+    }
+    printForm()
+
+    function onEditClick (index) {
+      indexEdit = index
+      printForm()
+    }
+
+    function onSaveClick (index){
+      let editName = document.getElementById('editname').value
+      let editPrice = document.getElementById('editprice').value
+      let editCategory;
+      let editCatego0 = document.getElementsByName('radioButton')[0].checked
+      let editCatego1 = document.getElementsByName('radioButton')[1].checked
+      let editCatego2 = document.getElementsByName('radioButton')[2].checked
+
+      if(editCatego0){
+        editCategory = 'drink'
+      } else if (editCatego1){
+        editCategory = 'food'
+      } else if (editCatego2){
+        editCategory = 'others'
+      }
+
+      form[index].name = editName
+      form[index].price = editPrice
+      form[index].category = editCategory
+
+      console.log(editCategory)
+      indexEdit = -1
+      printForm()
+    } 
+
+    function onDeleteClick (index){
+      indexDelete = -1
+      form.splice(index, 1)
+      printForm()
+    }
+
+    function onCancelClick (index){
+      indexEdit = -1
+      printForm()
+      console.log(index)
+    }
+
+    function onAddClick (){
+      let inputname = document.getElementById('inputName').value
+      let inputprice = document.getElementById('inputPrice').value
+      let inputcatego = document.getElementById('radioButton').value
+
+      form.push(new Form(inputname, inputprice, inputcatego),)
+      
+      if(inputname == '' || inputcatego == '' || inputprice == ''){
+        alert('Data belum terisi!')
+      } else if (inputname && inputcatego == ''){
+        alert('Nama produk dan harga belum terisi!')
+      } else {
+        printForm()
+      }
+      document.getElementById('inputName').value = ''
+      document.getElementById('inputPrice').value = ''
+      document.getElementById('radioButton').checked = false
+    }
+
+
+  </script>
+</body>
+</html>
